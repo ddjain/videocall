@@ -1,5 +1,18 @@
-const customGenerationFunction = () => (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
-const peer = new Peer(customGenerationFunction());
+
+
+
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 50 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+if(!localStorage.getItem("peerId")){
+	localStorage.setItem("peerId",uuidv4())
+}
+
+const peer = new Peer(localStorage.getItem("peerId"));
 const txtRoom = document.getElementById('txtRoom');
 const myVideo= document.getElementById("myVideo");
 const friendVideo= document.getElementById("friendVideo");
@@ -7,11 +20,14 @@ myVideo.muted = true;
  
 myVideo.style.transform= "scaleX(-1)";
 friendVideo.style.transform= "scaleX(-1)";
+
+
 peer.on('open', function(id) {
   console.log('My peer ID is: ' + id);
   document.getElementById("peerID").value=id
-document.getElementById("shareId").href="whatsapp://send?text=Join me with ID: " + id;
+  document.getElementById("shareId").href="whatsapp://send?text=Hi, Call me at https://ddjain.github.io/videocall/index.html, Using my ID: " + id;
 });
+
 
 function attachVideoStream(video, stream){
   video.srcObject = stream
@@ -22,7 +38,6 @@ function attachVideoStream(video, stream){
 
 
 function onBtnJoinClick(){
-
   navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
@@ -46,11 +61,13 @@ navigator.mediaDevices.getUserMedia({
   attachVideoStream(myVideo,stream);
   peer.on('call', function(call) {
   // Answer the call, providing our mediaStream
-    call.answer(stream);
-    const video = document.createElement('video')
-    call.on('stream', userVideoStream => {
-     attachVideoStream(friendVideo, userVideoStream)
-   })
+    if(confirm("You got a call, press OK to accept")){
+		call.answer(stream);
+	    const video = document.createElement('video')
+	    call.on('stream', userVideoStream => {
+	     attachVideoStream(friendVideo, userVideoStream)
+	   })
+    }
   });
 
 })
