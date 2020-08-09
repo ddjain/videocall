@@ -1,0 +1,52 @@
+ <html>
+   <head>
+      <script src="lib/peerjs.min.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <script src="lib/jquery.min.js"></script>
+      <script src="lib/bootstrap.min.js"></script>
+      <title>Serverless video calling app</title>
+<style>
+
+.myVideo {
+  max-width: 25%;
+  height: auto;
+}
+.friendVideo {
+
+  max-width: 100%;
+  height: auto;
+}
+</style>
+   </head>
+   <body>
+      <div class="jumbotron text-center">
+         <h1>Video Calling App</h1>
+         <p>This is simple video calling app using Peer.js</p>
+      </div>
+	 <form>
+            <div class="input-group">
+               <a id="shareId" >Share</a>
+            </div>
+            <div class="input-group">
+               <span class="input-group-addon">Your Peer Id</span>
+               <input type=text value="Your ID" id="peerID"class="form-control" >
+            </div>
+            <div class="input-group">
+               <span class="input-group-addon">Friend Peer Id</span>
+               <input class="form-control" id="txtRoom" type=text placeholder="Enter friends room ID">
+            </div>
+              <input id="btnJoin" class="btn float-right" type=button value="Start Call" onclick="onBtnJoinClick()">
+         </form>
+	
+
+ 
+		<video id="myVideo" class="myVideo"></video>
+ 
+
+ 
+		<video id="friendVideo" class="friendVideo"></video>
+ 
+   </body>
+   <script src="js/script.js"></script>
+</html>
